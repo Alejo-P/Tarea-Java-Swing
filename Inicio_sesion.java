@@ -26,7 +26,7 @@ public class Inicio_sesion {
 
                 String URL="jdbc:mysql://localhost:3306/poo_usuarios";
                 String bd_user="root";
-                String bd_pass="AP_@l3j0_2004";
+                String bd_pass=""; //No se puede compartir la contraseña de un servidor local
                 java.sql.Connection conexion= null;
                 try {
                     Class.forName("com.mysql.cj.jdbc.Driver");

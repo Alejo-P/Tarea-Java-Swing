@@ -21,7 +21,7 @@ public class Principal {
     public Principal (int ID) {
         String URL="jdbc:mysql://localhost:3306/poo_usuarios";
         String bd_user="root";
-        String bd_pass="AP_@l3j0_2004";
+        String bd_pass=""; //No se puede compartir la contraseña de un servidor local
         this.id_usr=ID;
         java.sql.Connection conexion= null;
 
