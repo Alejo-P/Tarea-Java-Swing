@@ -1,10 +1,10 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Inicio_sesion {
     private JLabel Titulo_pagina;
@@ -14,6 +14,7 @@ public class Inicio_sesion {
     private JPasswordField pass_entry;
     private JButton iniciarbtn;
     JPanel Pantalla_inicio;
+    private CardLayout cardLayout;
 
     List<Object[]> arreglo = new ArrayList<>();
 
@@ -42,11 +43,16 @@ public class Inicio_sesion {
                         Object[] fila = {id, Nombre, Contras};
                         arreglo.add(fila);
                     }
+                    resultado.close();
+                    statement.close();
+                    conexion.close();
                     boolean encontrado = false;
+                    int id_usr=0;
                     for (Object[] fila : arreglo) {
                         String nombre = (String) fila[1];
                         String contrasena = (String) fila[2];
                         if (nombre.equals(usr_entry.getText()) && contrasena.equals(new String(pass_entry.getPassword()))) {
+                            id_usr = (int) fila[0];
                             encontrado = true;
                             break;
                         }
@@ -56,7 +62,7 @@ public class Inicio_sesion {
                     }
                     else {
                         JFrame inicio = new JFrame();
-                        inicio.setContentPane(new Principal().pantalla2);
+                        inicio.setContentPane(new Principal(id_usr).pantalla2);
                         inicio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         inicio.setSize(800,640);
                         inicio.setVisible(true);
@@ -64,7 +70,6 @@ public class Inicio_sesion {
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    return;
                 }
             }
         });
