@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Inicio_sesion {
     private JLabel Titulo_pagina;
@@ -14,11 +15,14 @@ public class Inicio_sesion {
     private JButton iniciarbtn;
     JPanel Pantalla_inicio;
 
+    List<Object[]> arreglo = new ArrayList<>();
+
     public Inicio_sesion() {
         iniciarbtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                List<Object[]> arreglo = new ArrayList<>();
+                arreglo.clear();
+
                 String URL="jdbc:mysql://localhost:3306/poo_usuarios";
                 String bd_user="root";
                 String bd_pass="AP_@l3j0_2004";
@@ -38,12 +42,25 @@ public class Inicio_sesion {
                         Object[] fila = {id, Nombre, Contras};
                         arreglo.add(fila);
                     }
+                    boolean encontrado = false;
                     for (Object[] fila : arreglo) {
-                        int ID = (int) fila[0];
                         String nombre = (String) fila[1];
                         String contrasena = (String) fila[2];
-
-                        System.out.println("ID: " + ID + ", Nombre: " + nombre + ", Contraseña: " + contrasena);
+                        if (nombre.equals(usr_entry.getText()) && contrasena.equals(new String(pass_entry.getPassword()))) {
+                            encontrado = true;
+                            break;
+                        }
+                    }
+                    if (!encontrado) {
+                        JOptionPane.showMessageDialog(Pantalla_inicio, "Credenciales incorrectas", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else {
+                        JFrame inicio = new JFrame();
+                        inicio.setContentPane(new Principal().pantalla2);
+                        inicio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        inicio.setSize(800,640);
+                        inicio.setVisible(true);
+                        inicio.pack();
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
